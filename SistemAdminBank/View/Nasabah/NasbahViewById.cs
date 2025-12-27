@@ -15,11 +15,14 @@ namespace SistemAdminBank.View.Nasabah
     public partial class NasbahViewById : Form
     {
         private int _nasabahId;
+        private string _idAdmin;   
+        private Form _parentForm;
         NasabahController _controller = new NasabahController();
-        public NasbahViewById(int nasabahId)
+        public NasbahViewById(int nasabahId, string idAdmin)
         {
             InitializeComponent();
             this._nasabahId = nasabahId;
+            this._idAdmin = idAdmin;
             LoadDataNasabah();
         
         }
@@ -43,7 +46,6 @@ namespace SistemAdminBank.View.Nasabah
                 dltBtn.Text = "Delete Nasabah";
             }else if(nasabah.Status == "INACTIVE")
             {
-                tglDaftarPicker.Enabled = true;
                 dltBtn.Enabled = true;
                 dltBtn.Text = "Restore Nasabah";
             }
@@ -61,10 +63,15 @@ namespace SistemAdminBank.View.Nasabah
             if (nasabah.Status == "ACTIVE")
             {
                 _controller.Delete(_nasabahId.ToString());
+
+                MessageBox.Show("Data nasabah berhasil dihapus", "Success",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else if (nasabah.Status == "INACTIVE")
             {
                 _controller.Restore(_nasabahId.ToString());
+                MessageBox.Show("Data nasabah berhasil dihapus", "Success",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             LoadDataNasabah(); 
         }
@@ -107,6 +114,13 @@ namespace SistemAdminBank.View.Nasabah
         private void tglDaftarPicker_ValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void backBtn_Click(object sender, EventArgs e)
+        {
+            NasabahView view = new NasabahView(_idAdmin);
+            view.Show();
+            this.Hide();
         }
     }
 }

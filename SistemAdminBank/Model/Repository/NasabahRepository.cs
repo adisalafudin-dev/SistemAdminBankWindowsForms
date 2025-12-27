@@ -119,57 +119,42 @@ namespace SistemAdminBank.Model.Repository
 
         public int Delete(string IdNasabah)
         {
-            var result = 0;
+            int result = 0;
 
-
-            string sql = "UPDATE nasabah" + @"
-            SET status = INACTIVE
-            WHERE nasabah_id = @IdNasabah";
+            string sql = @"
+        UPDATE nasabah
+        SET status = 'INACTIVE'
+        WHERE nasabah_id = @IdNasabah";
 
             using (var cmd = new SQLiteCommand(sql, _conn))
             {
                 cmd.Parameters.AddWithValue("@IdNasabah", IdNasabah);
-                try
-                {
-                    result = cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.Print("Create Nasabah Error: {0}", ex.Message);
-
-                }
-
-                return result;
-
+                result = cmd.ExecuteNonQuery();
             }
+
+            return result;
         }
+
 
 
         public int Restore(string IdNasabah)
         {
-            var result = 0;
+            int result = 0;
 
-            string sql = "UPDATE nasabah" + @"
-            SET status = ACTIVE
-            WHERE nasabah_id = @IdNasabah";
+            string sql = @"
+        UPDATE nasabah
+        SET status = 'ACTIVE'
+        WHERE nasabah_id = @IdNasabah";
 
             using (var cmd = new SQLiteCommand(sql, _conn))
             {
                 cmd.Parameters.AddWithValue("@IdNasabah", IdNasabah);
-                try
-                {
-                    result = cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.Print("Create Nasabah Error: {0}", ex.Message);
-
-                }
-
-                return result;
-
+                result = cmd.ExecuteNonQuery();
             }
+
+            return result;
         }
+
 
 
 

@@ -115,15 +115,17 @@ namespace SistemAdminBank.View.Nasabah
 
         private void lvNasabah_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lvNasabah.SelectedItems.Count > 0)
-            {
-                ListViewItem item = lvNasabah.SelectedItems[0];
-                string idNasabah = item.Text; // Column 0 (ID)
+            if (lvNasabah.SelectedItems.Count == 0) return;
 
-                NasbahViewById nasabahViewById = new NasbahViewById(int.Parse(idNasabah));
-                nasabahViewById.Show();
-                this.Hide();
-            }
+            string idNasabah = lvNasabah.SelectedItems[0].Text;
+
+            var detailForm = new NasbahViewById(
+                int.Parse(idNasabah),
+              this._idAdmin
+            );
+
+            detailForm.Show();
+            this.Hide();
         }
     }
 }

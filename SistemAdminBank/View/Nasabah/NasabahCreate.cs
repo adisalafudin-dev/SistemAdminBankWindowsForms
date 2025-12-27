@@ -14,6 +14,7 @@ namespace SistemAdminBank.View.Nasabah
 {
     public partial class NasabahCreate : Form
     {
+   
         private string _idAdmin;
         private NasabahController _controller = new NasabahController();
         public NasabahCreate(string idAdmin)
