@@ -18,12 +18,12 @@ namespace SistemAdminBank.Model.Repository
             _conn = context.Conn;
         }
 
-        public int Create(Nasabah nasabah)
+        public int Create(NasabahModel nasabah)
         {
             var result = 0;
 
-            string sql = "INSERT INTO nasabah (IdNasabah, Nama, Nik, Alamat, NoTelepon, Email, TanggalDaftar) " +
-                         "VALUES (@IdNasabah, @Nama, @Nik, @Alamat, @NoTelepon, @Email, @TanggalDaftar)";
+            string sql = "INSERT INTO nasabah (nasabah_id, nama_lengkap, nik, alamat, no_telp, tanggal_daftar) " +
+                         "VALUES (@IdNasabah, @Nama, @Nik, @Alamat, @NoTelepon, @TanggalDaftar)";
 
             using (var cmd = new SQLiteCommand(sql, _conn))
             {
@@ -32,7 +32,6 @@ namespace SistemAdminBank.Model.Repository
                 cmd.Parameters.AddWithValue("@Nik", nasabah.Nik);
                 cmd.Parameters.AddWithValue("@Alamat", nasabah.Alamat);
                 cmd.Parameters.AddWithValue("@NoTelepon", nasabah.NoTelepon);
-                cmd.Parameters.AddWithValue("@Email", nasabah.Email);
                 cmd.Parameters.AddWithValue("@TanggalDaftar", nasabah.TanggalDaftar);
 
                 try
@@ -50,9 +49,9 @@ namespace SistemAdminBank.Model.Repository
             }
         }
 
-        public List<Nasabah> GetAll()
+        public List<NasabahModel> GetAll()
         {
-            var nasabahList = new List<Nasabah>();
+            var nasabahList = new List<NasabahModel>();
 
             try
             {
@@ -64,7 +63,7 @@ namespace SistemAdminBank.Model.Repository
                     {
                         while (reader.Read())
                         {
-                            var nasabah = new Nasabah
+                            var nasabah = new NasabahModel
                             {
                                 IdNasabah = reader["nasabah_id"].ToString(),
                                 Nama = reader["nama_lengkap"].ToString(),
@@ -87,12 +86,12 @@ namespace SistemAdminBank.Model.Repository
         }
 
 
-        public int Update(Nasabah nasabah)
+        public int Update(NasabahModel nasabah)
         {
             var result = 0;
 
-            string sql = "UPDATE nasabah SET Nama = @Nama, Nik = @Nik, Alamat = @Alamat, NoTelepon = @NoTelepon, Email = @Email, TanggalDaftar = @TanggalDaftar " +
-                         "WHERE IdNasabah = @IdNasabah";
+            string sql = "UPDATE nasabah SET nama_lengkap = @Nama, nik = @Nik, alamat = @Alamat, no_telp = @NoTelepon, tanggal_daftar = @TanggalDaftar " +
+                         "WHERE nasabah_id = @IdNasabah";   
 
             using (var cmd = new SQLiteCommand(sql, _conn))
             {
@@ -101,7 +100,6 @@ namespace SistemAdminBank.Model.Repository
                 cmd.Parameters.AddWithValue("@Nik", nasabah.Nik);
                 cmd.Parameters.AddWithValue("@Alamat", nasabah.Alamat);
                 cmd.Parameters.AddWithValue("@NoTelepon", nasabah.NoTelepon);
-                cmd.Parameters.AddWithValue("@Email", nasabah.Email);
                 cmd.Parameters.AddWithValue("@TanggalDaftar", nasabah.TanggalDaftar);
 
                 try
@@ -123,12 +121,37 @@ namespace SistemAdminBank.Model.Repository
         {
             var result = 0;
 
-            var nasabah = GetById(IdNasabah);
 
-            if (nasabah == null) return 0;
+            string sql = "UPDATE nasabah" + @"
+            SET status = INACTIVE
+            WHERE nasabah_id = @IdNasabah";
 
-            string sql = "DELETE FROM nasabah " +
-                         "WHERE IdNasabah = @IdNasabah";
+            using (var cmd = new SQLiteCommand(sql, _conn))
+            {
+                cmd.Parameters.AddWithValue("@IdNasabah", IdNasabah);
+                try
+                {
+                    result = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.Print("Create Nasabah Error: {0}", ex.Message);
+
+                }
+
+                return result;
+
+            }
+        }
+
+
+        public int Restore(string IdNasabah)
+        {
+            var result = 0;
+
+            string sql = "UPDATE nasabah" + @"
+            SET status = ACTIVE
+            WHERE nasabah_id = @IdNasabah";
 
             using (var cmd = new SQLiteCommand(sql, _conn))
             {
@@ -150,34 +173,41 @@ namespace SistemAdminBank.Model.Repository
 
 
 
-
-        public Nasabah GetById(string IdNasabah)
+        public NasabahModel GetById(string IdNasabah)
         {
-            Nasabah nasabah = null;
+            NasabahModel nasabah = null;
 
-            string sql = "SELECT * FROM nasabah WHERE IdNasabah = @IdNasabah";
+            string sql = @"
+                SELECT nasabah_id, nama_lengkap, nik, alamat, no_telp, tanggal_daftar, status
+                FROM nasabah
+                WHERE nasabah_id = @IdNasabah";
+
 
             try
             {
                 using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
                 {
+                    cmd.Parameters.AddWithValue("@IdNasabah", IdNasabah);
+
                     using (SQLiteDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            nasabah = new Nasabah
+                            nasabah = new NasabahModel
                             {
                                 IdNasabah = reader["nasabah_id"].ToString(),
                                 Nama = reader["nama_lengkap"].ToString(),
                                 Nik = reader["nik"].ToString(),
                                 Alamat = reader["alamat"].ToString(),
                                 NoTelepon = reader["no_telp"].ToString(),
-                                TanggalDaftar = Convert.ToDateTime(reader["tanggal_daftar"])
+                                TanggalDaftar = Convert.ToDateTime(reader["tanggal_daftar"]),
+                                Status = reader["status"].ToString()
                             };
+
+                         
                         }
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -188,13 +218,13 @@ namespace SistemAdminBank.Model.Repository
         }
 
 
-        public List<Nasabah> SearchByName(string NamaNasabah)
+        public List<NasabahModel> SearchByName(string NamaNasabah)
         {
-            var nasabahList = new List<Nasabah>();
+            var nasabahList = new List<NasabahModel>();
 
             try
             {
-                string sql = @"select nasabah_id, nama_lengkap, nik, alamat, no_telp, tanggal_daftar from nasabah WHERE nama_lengkap LIKE '@NamaNasabah'";
+                string sql = @"select nasabah_id, nama_lengkap, nik, alamat, no_telp, tanggal_daftar from nasabah WHERE nama_lengkap LIKE @NamaNasabah COLLATE NOCASE";
 
                 using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
                 {
@@ -204,7 +234,7 @@ namespace SistemAdminBank.Model.Repository
                     {
                         while (reader.Read())
                         {
-                            var nasabah = new Nasabah
+                            var nasabah = new NasabahModel
                             {
                                 IdNasabah = reader["nasabah_id"].ToString(),
                                 Nama = reader["nama_lengkap"].ToString(),

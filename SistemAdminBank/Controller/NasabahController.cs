@@ -20,44 +20,51 @@ namespace SistemAdminBank.Controller
             _repository = new NasabahRepository(_context);
         }
 
-        public int Create(Nasabah nasabah)
+        public int Create(NasabahModel nasabah)
         {
             int result = 0;
             result = _repository.Create(nasabah);
             return result;
         }
 
-        public List<Nasabah> GetAll()
+        public List<NasabahModel> GetAll()
         {
-            var nasabahList = new List<Nasabah>();
+            var nasabahList = new List<NasabahModel>();
             nasabahList = _repository.GetAll();
             return nasabahList;
         }
 
-        public int Update(Nasabah nasabah)
+        public int Update(NasabahModel nasabah)
         {
             int result = 0;
             result = _repository.Update(nasabah);
             return result;
         }
 
-        public int Delete(Nasabah nasabah)
+        public int Delete(string IdNasabah)
         {
             int result = 0;
-            result = _repository.Delete(nasabah.IdNasabah);
+            result = _repository.Delete(IdNasabah);
             return result;
         }
 
-        public Nasabah GetById(string idNasabah)
+        public int Restore(string IdNasabah)
         {
-            Nasabah nasabah = null;
+            int result = 0;
+            result = _repository.Restore(IdNasabah);
+            return result;
+        }
+
+        public NasabahModel GetById(string idNasabah)
+        {
+            NasabahModel nasabah = null;
             nasabah = _repository.GetById(idNasabah);
             return nasabah;
         }
 
-        public List<Nasabah> GetByName(string namaNasabah)
+        public List<NasabahModel> GetByName(string namaNasabah)
         {
-            List<Nasabah> nasabah = null;
+            List<NasabahModel> nasabah = null;
             nasabah = _repository.SearchByName(namaNasabah);
             return nasabah;
         }

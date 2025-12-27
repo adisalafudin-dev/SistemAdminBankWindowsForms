@@ -1,5 +1,6 @@
 ﻿using SistemAdminBank.Controller;
 using SistemAdminBank.Model.Entity;
+using SistemAdminBank.View.Nasabah;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,6 +39,10 @@ namespace SistemAdminBank.View.Admin
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
+
+                NasabahView nasabahView = new NasabahView(requestAdmin.IdAdmin);
+                nasabahView.Show();
+                this.Hide();
             }
             else if (result == -2)
             {
