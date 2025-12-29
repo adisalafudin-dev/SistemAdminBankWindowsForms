@@ -53,10 +53,12 @@
   <ItemGroup>
     <Compile Include="Controller\AdminController.cs" />
     <Compile Include="Controller\NasabahController.cs" />
+    <Compile Include="Controller\RekeningController.cs" />
     <Compile Include="Model\Context\DbContext.cs" />
     <Compile Include="Model\Entity\Admin.cs" />
     <Compile Include="Model\Entity\NasabahModel.cs" />
     <Compile Include="Model\Entity\RekeningModel.cs" />
+    <Compile Include="Model\Entity\TransaksiModel.cs" />
     <Compile Include="Model\Repository\AdminRepository.cs" />
     <Compile Include="Model\Repository\NasabahRepository.cs" />
     <Compile Include="Model\Repository\RekeningRepository.cs" />
@@ -86,6 +88,36 @@
     <Compile Include="View\Nasabah\NasbahViewById.Designer.cs">
       <DependentUpon>NasbahViewById.cs</DependentUpon>
     </Compile>
+    <Compile Include="View\Rekening\RekekningView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Rekening\RekekningView.Designer.cs">
+      <DependentUpon>RekekningView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Rekening\RekeningCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Rekening\RekeningCreate.Designer.cs">
+      <DependentUpon>RekeningCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Rekening\RekeningViewById.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Rekening\RekeningViewById.Designer.cs">
+      <DependentUpon>RekeningViewById.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Transaksi\TransaksiCreate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Transaksi\TransaksiCreate.Designer.cs">
+      <DependentUpon>TransaksiCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="View\Transaksi\TransaksiView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\Transaksi\TransaksiView.Designer.cs">
+      <DependentUpon>TransaksiView.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -106,6 +138,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="View\Nasabah\NasbahViewById.resx">
       <DependentUpon>NasbahViewById.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Rekening\RekekningView.resx">
+      <DependentUpon>RekekningView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Rekening\RekeningCreate.resx">
+      <DependentUpon>RekeningCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Rekening\RekeningViewById.resx">
+      <DependentUpon>RekeningViewById.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\Transaksi\TransaksiView.resx">
+      <DependentUpon>TransaksiView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

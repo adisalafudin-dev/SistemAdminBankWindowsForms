@@ -14,9 +14,9 @@ namespace SistemAdminBank.Controller
         private DbContext _context;
         private RekeningRepository _repository;
 
-        public RekeningController(DbContext context)
+        public RekeningController()
         {
-            _context = context;
+            _context = new DbContext();
             _repository = new RekeningRepository(_context);
         }
 
@@ -35,11 +35,6 @@ namespace SistemAdminBank.Controller
         public RekeningModel GetById(int rekeningId)
         {
             return _repository.GetById(rekeningId);
-        }
-
-        public RekeningModel GetByNomorRekening(int noRek)
-        {
-            return _repository.GetByNomorRek(noRek);
         }
 
         public List<RekeningModel> GetByNasabahId(int nasabahId)
@@ -64,8 +59,14 @@ namespace SistemAdminBank.Controller
         {
             return _repository.RestoreRekening(noRek);
         }
+
+        public string GenerateNomorRekening()
+        {
+            return _repository.GenerateNomorRekening();
+        }
     }
 
+}
 
-}
-}
+
+
