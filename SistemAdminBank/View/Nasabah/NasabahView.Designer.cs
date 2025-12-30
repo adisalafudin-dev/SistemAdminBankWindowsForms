@@ -46,7 +46,7 @@
             this.lvNasabah.HideSelection = false;
             this.lvNasabah.Location = new System.Drawing.Point(12, 31);
             this.lvNasabah.Name = "lvNasabah";
-            this.lvNasabah.Size = new System.Drawing.Size(776, 380);
+            this.lvNasabah.Size = new System.Drawing.Size(763, 380);
             this.lvNasabah.TabIndex = 0;
             this.lvNasabah.UseCompatibleStateImageBehavior = false;
             this.lvNasabah.SelectedIndexChanged += new System.EventHandler(this.lvNasabah_SelectedIndexChanged);
@@ -71,7 +71,7 @@
             // searchButton
             // 
             this.searchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.searchButton.Location = new System.Drawing.Point(698, 4);
+            this.searchButton.Location = new System.Drawing.Point(685, 4);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(90, 23);
             this.searchButton.TabIndex = 3;
@@ -82,15 +82,16 @@
             // searchBox
             // 
             this.searchBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.searchBox.Location = new System.Drawing.Point(531, 6);
+            this.searchBox.Location = new System.Drawing.Point(518, 6);
             this.searchBox.Name = "searchBox";
             this.searchBox.Size = new System.Drawing.Size(161, 20);
             this.searchBox.TabIndex = 4;
+            this.searchBox.TextChanged += new System.EventHandler(this.searchBox_TextChanged);
             // 
             // addNasabahBtn
             // 
             this.addNasabahBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.addNasabahBtn.Location = new System.Drawing.Point(665, 417);
+            this.addNasabahBtn.Location = new System.Drawing.Point(652, 417);
             this.addNasabahBtn.Name = "addNasabahBtn";
             this.addNasabahBtn.Size = new System.Drawing.Size(123, 23);
             this.addNasabahBtn.TabIndex = 5;
@@ -123,7 +124,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(787, 450);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.btnLogout);
             this.Controls.Add(this.addNasabahBtn);

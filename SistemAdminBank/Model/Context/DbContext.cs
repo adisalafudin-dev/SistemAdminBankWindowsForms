@@ -22,7 +22,7 @@ namespace SistemAdminBank.Model.Context
             {
                 // atur ulang lokasi database yang disesuaikan dengan
                 // lokasi database perpustakaan Anda
-                string dbName = @"D:\Database\SistemBank\SistemPerbankan.db";
+                string dbName = @"C:\Users\LENOVO\Documents\Project\SistemAdminBankWindowsForms\SistemPerbankan.db";
             
                 string connectionString = string.Format("DataSource ={0}; FailIfMissing = True", dbName);
             conn = new SQLiteConnection(connectionString); 

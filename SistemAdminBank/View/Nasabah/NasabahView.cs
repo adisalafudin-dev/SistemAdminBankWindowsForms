@@ -121,11 +121,16 @@ namespace SistemAdminBank.View.Nasabah
 
             var detailForm = new NasbahViewById(
                 int.Parse(idNasabah),
-              this._idAdmin
+                this._idAdmin
             );
 
             detailForm.Show();
             this.Hide();
+        }
+
+        private void searchBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

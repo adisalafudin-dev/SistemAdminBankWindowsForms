@@ -54,6 +54,7 @@
     <Compile Include="Controller\AdminController.cs" />
     <Compile Include="Controller\NasabahController.cs" />
     <Compile Include="Controller\RekeningController.cs" />
+    <Compile Include="Controller\TransaksiController.cs" />
     <Compile Include="Model\Context\DbContext.cs" />
     <Compile Include="Model\Entity\Admin.cs" />
     <Compile Include="Model\Entity\NasabahModel.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Model\Repository\AdminRepository.cs" />
     <Compile Include="Model\Repository\NasabahRepository.cs" />
     <Compile Include="Model\Repository\RekeningRepository.cs" />
+    <Compile Include="Model\Repository\TransaksiRepository.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\Admin\AdminLoginView.cs">
