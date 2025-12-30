@@ -150,6 +150,9 @@
     <EmbeddedResource Include="View\Rekening\RekeningViewById.resx">
       <DependentUpon>RekeningViewById.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="View\Transaksi\TransaksiCreate.resx">
+      <DependentUpon>TransaksiCreate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Transaksi\TransaksiView.resx">
       <DependentUpon>TransaksiView.cs</DependentUpon>
     </EmbeddedResource>
