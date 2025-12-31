@@ -120,7 +120,7 @@ namespace SistemAdminBank.View.Nasabah
             string idNasabah = lvNasabah.SelectedItems[0].Text;
 
             var detailForm = new NasbahViewById(
-                int.Parse(idNasabah),
+                idNasabah,
                 this._idAdmin
             );
 

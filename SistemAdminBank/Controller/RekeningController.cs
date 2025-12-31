@@ -37,7 +37,7 @@ namespace SistemAdminBank.Controller
             return _repository.GetById(rekeningId);
         }
 
-        public List<RekeningModel> GetByNasabahId(int nasabahId)
+        public List<RekeningModel> GetByNasabahId(string nasabahId)
         {
             return _repository.GetByNasabahId(nasabahId);
         }

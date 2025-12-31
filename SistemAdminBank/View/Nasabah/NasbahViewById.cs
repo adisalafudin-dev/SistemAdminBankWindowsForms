@@ -14,22 +14,21 @@ namespace SistemAdminBank.View.Nasabah
 {
     public partial class NasbahViewById : Form
     {
-        private int _nasabahId;
-        private string _idAdmin;   
-        private Form _parentForm;
+        private string _nasabahId;
+        private string _idAdmin; 
         NasabahController _controller = new NasabahController();
-        public NasbahViewById(int nasabahId, string idAdmin)
+        public NasbahViewById(string nasabahId, string idAdmin)
         {
-            InitializeComponent();
             this._nasabahId = nasabahId;
             this._idAdmin = idAdmin;
             LoadDataNasabah();
-        
+            InitializeComponent();
+
         }
 
         private void LoadDataNasabah()
         {
-           NasabahModel nasabah = _controller.GetById(_nasabahId.ToString());
+           NasabahModel nasabah = _controller.GetById(_nasabahId);
           if (nasabah != null)
               {
                 namaBox.Text = nasabah.Nama;
@@ -40,11 +39,12 @@ namespace SistemAdminBank.View.Nasabah
                 btnStatus.Text = nasabah.Status;
             }
 
-          if(nasabah.Status == "ACTIVE")
+            if (nasabah.Status == "ACTIVE")
             {
                 dltBtn.Enabled = true;
                 dltBtn.Text = "Delete Nasabah";
-            }else if(nasabah.Status == "INACTIVE")
+            }
+            else if (nasabah.Status == "INACTIVE")
             {
                 dltBtn.Enabled = true;
                 dltBtn.Text = "Restore Nasabah";
@@ -58,7 +58,7 @@ namespace SistemAdminBank.View.Nasabah
 
         private void dltBtn_Click(object sender, EventArgs e)
         {
-            NasabahModel nasabah = _controller.GetById(_nasabahId.ToString());
+            NasabahModel nasabah = _controller.GetById(_nasabahId);
 
             if (nasabah.Status == "ACTIVE")
             {
@@ -78,7 +78,7 @@ namespace SistemAdminBank.View.Nasabah
 
         private void editBtn_Click(object sender, EventArgs e)
         {
-            NasabahModel nasabah = _controller.GetById(_nasabahId.ToString());
+            NasabahModel nasabah = _controller.GetById(_nasabahId);
 
             if (!string.IsNullOrWhiteSpace(namaBox.Text))
             {

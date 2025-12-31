@@ -156,8 +156,6 @@ namespace SistemAdminBank.Model.Repository
         }
 
 
-
-
         public NasabahModel GetById(string IdNasabah)
         {
             NasabahModel nasabah = null;

@@ -62,7 +62,7 @@ namespace SistemAdminBank.Model.Repository
                         {
                             RekeningId = Convert.ToInt32(reader["rekening_id"]),
                             NomorRekening = reader["no_rekening"].ToString(),
-                            IdNasabah = Convert.ToInt32(reader["nasabah_id"]),
+                            IdNasabah = reader["nasabah_id"].ToString(),
                             JenisRekening = reader["jenis_rekening"].ToString(),
                             Saldo = Convert.ToDecimal(reader["saldo"]),
                             TanggalBuka = Convert.ToDateTime(reader["tanggal_buka"]),
@@ -74,7 +74,7 @@ namespace SistemAdminBank.Model.Repository
             return rekening;
         }
 
-        public List<RekeningModel> GetByNasabahId(int nasabahId)
+        public List<RekeningModel> GetByNasabahId(string nasabahId)
         {
             var rekeningList = new List<RekeningModel>();
             RekeningModel rekening = null;
@@ -91,7 +91,7 @@ namespace SistemAdminBank.Model.Repository
                         {
                             RekeningId = Convert.ToInt32(reader["rekening_id"]),
                             NomorRekening = reader["no_rekening"].ToString(),
-                            IdNasabah = Convert.ToInt32(reader["nasabah_id"]),
+                            IdNasabah = reader["nasabah_id"].ToString(),
                             JenisRekening = reader["jenis_rekening"].ToString(),
                             Saldo = Convert.ToDecimal(reader["saldo"]),
                             TanggalBuka = Convert.ToDateTime(reader["tanggal_buka"]),

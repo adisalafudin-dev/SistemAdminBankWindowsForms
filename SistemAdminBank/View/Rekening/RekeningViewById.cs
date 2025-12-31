@@ -15,10 +15,10 @@ namespace SistemAdminBank.View.Rekening
     public partial class RekeningViewById : Form
     {
         private string _idAdmin;
-        private int _nasabahId;
+        private string _nasabahId;
         private string _rekeningId;
         private RekeningController _controller = new RekeningController();
-        public RekeningViewById(string _rekeningId, string idAdmin, int nasabahId)
+        public RekeningViewById(string _rekeningId, string idAdmin, string nasabahId)
         {
             this._nasabahId = nasabahId;
             this._idAdmin = idAdmin;

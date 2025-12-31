@@ -10,7 +10,7 @@ namespace SistemAdminBank.Model.Entity
     {
         public int RekeningId { get; set; }
         public string NomorRekening { get; set; }
-        public int IdNasabah { get; set; }
+        public string IdNasabah { get; set; }
         public decimal Saldo { get; set; }
         public string JenisRekening { get; set; }
         public DateTime TanggalBuka { get; set; }
