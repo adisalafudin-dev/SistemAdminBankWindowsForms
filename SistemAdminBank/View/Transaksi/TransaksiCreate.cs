@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SistemAdminBank.Controller;
+using SistemAdminBank.Model.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +18,8 @@ namespace SistemAdminBank.View.Transaksi
         private int _nasabahId;
         private int _rekeningId;
 
+        TransaksiController _controller = new TransaksiController();
+
         public TransaksiCreate(string idAdmin, int nasabahId, int rekeningId)
         {
             InitializeComponent();
@@ -27,11 +31,48 @@ namespace SistemAdminBank.View.Transaksi
 
         private void TransaksiCreate_Load(object sender, EventArgs e)
         {
+            comboBoxJenis.Items.Add("Transfer");
+            comboBoxJenis.Items.Add("Setoran");
+            comboBoxJenis.Items.Add("Penarikan");
+
+            comboBoxJenis.DropDownStyle = ComboBoxStyle.DropDownList;
+
 
         }
 
         private void transaksiBtn_Click(object sender, EventArgs e)
         {
+            if (comboBoxJenis.SelectedItem == null)
+            {
+                MessageBox.Show("Jenis transaksi harus dipilih.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (comboBoxJenis.SelectedIndex == 0)
+            {
+                TransaksiModel transaksi = new TransaksiModel();
+
+
+                string jenisTransaksi = comboBoxJenis.SelectedItem.ToString();
+                var jumlah = txtBoxJumlah.Text;
+                DateTime tanggalTransaksi = dateTimePicker.Value;
+                string keterangan = textBoxKet.Text;
+                string rekeningTujuan = textBoxTujuan.Text;
+
+
+                transaksi.Jumlah = decimal.Parse(jumlah);
+                transaksi.TanggalTransaksi = tanggalTransaksi;
+                transaksi.Keterangan = keterangan;
+                transaksi.JenisTransaksi = jenisTransaksi;
+                transaksi.RekeningId = _rekeningId;
+                transaksi.AdminId = int.Parse(_idAdmin);
+
+
+                _controller.CreateTransaksiTransfer(transaksi);
+                MessageBox.Show("Transaksi berhasil dibuat.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+            }
 
         }
     }
