@@ -31,6 +31,7 @@
             this.lvRekening = new System.Windows.Forms.ListView();
             this.button1 = new System.Windows.Forms.Button();
             this.btnBack = new System.Windows.Forms.Button();
+            this.btnClosedRek = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lvRekening
@@ -63,11 +64,21 @@
             this.btnBack.UseVisualStyleBackColor = true;
             this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
+            // btnClosedRek
+            // 
+            this.btnClosedRek.Location = new System.Drawing.Point(12, 25);
+            this.btnClosedRek.Name = "btnClosedRek";
+            this.btnClosedRek.Size = new System.Drawing.Size(139, 23);
+            this.btnClosedRek.TabIndex = 3;
+            this.btnClosedRek.Text = "Closed Rekening";
+            this.btnClosedRek.UseVisualStyleBackColor = true;
+            // 
             // RekekningView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnClosedRek);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lvRekening);
@@ -83,5 +94,6 @@
         private System.Windows.Forms.ListView lvRekening;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnBack;
+        private System.Windows.Forms.Button btnClosedRek;
     }
 }
