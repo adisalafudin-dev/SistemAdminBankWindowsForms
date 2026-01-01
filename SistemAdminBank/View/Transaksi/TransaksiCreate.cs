@@ -12,9 +12,27 @@ namespace SistemAdminBank.View.Transaksi
 {
     public partial class TransaksiCreate : Form
     {
-        public TransaksiCreate()
+        private string _idAdmin;
+        private int _nasabahId;
+        private int _rekeningId;
+
+        public TransaksiCreate(string idAdmin, int nasabahId, int rekeningId)
         {
             InitializeComponent();
+            _idAdmin = idAdmin;
+            _nasabahId = nasabahId;
+            _rekeningId = rekeningId;
+        }
+
+
+        private void TransaksiCreate_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void transaksiBtn_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -151,7 +151,7 @@ namespace SistemAdminBank.Model.Repository
         {
             int result = 0;
             string sql = "UPDATE rekening SET jenis_rekening = @JenisRekening, saldo = @Saldo, status = @Status " +
-                         "WHERE rekening_id = @NomorRekening";
+                         "WHERE no_rekening = @NomorRekening";
 
             
             using (var cmd = new SQLiteCommand(sql, _conn))

@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.comboBoxJenis = new System.Windows.Forms.ComboBox();
+            this.txtBoxJumlah = new System.Windows.Forms.TextBox();
+            this.textBoxTujuan = new System.Windows.Forms.TextBox();
+            this.textBoxKet = new System.Windows.Forms.TextBox();
+            this.dateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.transaksiBtn = new System.Windows.Forms.Button();
             this.backBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -42,41 +42,41 @@
             this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // comboBox1
+            // comboBoxJenis
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(221, 71);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(304, 21);
-            this.comboBox1.TabIndex = 0;
+            this.comboBoxJenis.FormattingEnabled = true;
+            this.comboBoxJenis.Location = new System.Drawing.Point(221, 71);
+            this.comboBoxJenis.Name = "comboBoxJenis";
+            this.comboBoxJenis.Size = new System.Drawing.Size(304, 21);
+            this.comboBoxJenis.TabIndex = 0;
             // 
-            // textBox1
+            // txtBoxJumlah
             // 
-            this.textBox1.Location = new System.Drawing.Point(221, 110);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(304, 20);
-            this.textBox1.TabIndex = 1;
+            this.txtBoxJumlah.Location = new System.Drawing.Point(221, 110);
+            this.txtBoxJumlah.Name = "txtBoxJumlah";
+            this.txtBoxJumlah.Size = new System.Drawing.Size(304, 20);
+            this.txtBoxJumlah.TabIndex = 1;
             // 
-            // textBox2
+            // textBoxTujuan
             // 
-            this.textBox2.Location = new System.Drawing.Point(221, 151);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(304, 20);
-            this.textBox2.TabIndex = 2;
+            this.textBoxTujuan.Location = new System.Drawing.Point(221, 151);
+            this.textBoxTujuan.Name = "textBoxTujuan";
+            this.textBoxTujuan.Size = new System.Drawing.Size(304, 20);
+            this.textBoxTujuan.TabIndex = 2;
             // 
-            // textBox4
+            // textBoxKet
             // 
-            this.textBox4.Location = new System.Drawing.Point(221, 235);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(304, 20);
-            this.textBox4.TabIndex = 4;
+            this.textBoxKet.Location = new System.Drawing.Point(221, 235);
+            this.textBoxKet.Name = "textBoxKet";
+            this.textBoxKet.Size = new System.Drawing.Size(304, 20);
+            this.textBoxKet.TabIndex = 4;
             // 
-            // dateTimePicker1
+            // dateTimePicker
             // 
-            this.dateTimePicker1.Location = new System.Drawing.Point(221, 194);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(304, 20);
-            this.dateTimePicker1.TabIndex = 6;
+            this.dateTimePicker.Location = new System.Drawing.Point(221, 194);
+            this.dateTimePicker.Name = "dateTimePicker";
+            this.dateTimePicker.Size = new System.Drawing.Size(304, 20);
+            this.dateTimePicker.TabIndex = 6;
             // 
             // transaksiBtn
             // 
@@ -86,6 +86,7 @@
             this.transaksiBtn.TabIndex = 7;
             this.transaksiBtn.Text = "Transaksi";
             this.transaksiBtn.UseVisualStyleBackColor = true;
+            this.transaksiBtn.Click += new System.EventHandler(this.transaksiBtn_Click);
             // 
             // backBtn
             // 
@@ -153,13 +154,14 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.backBtn);
             this.Controls.Add(this.transaksiBtn);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.textBox4);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.dateTimePicker);
+            this.Controls.Add(this.textBoxKet);
+            this.Controls.Add(this.textBoxTujuan);
+            this.Controls.Add(this.txtBoxJumlah);
+            this.Controls.Add(this.comboBoxJenis);
             this.Name = "TransaksiCreate";
             this.Text = "TransaksiCreate";
+            this.Load += new System.EventHandler(this.TransaksiCreate_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -167,11 +169,11 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.ComboBox comboBoxJenis;
+        private System.Windows.Forms.TextBox txtBoxJumlah;
+        private System.Windows.Forms.TextBox textBoxTujuan;
+        private System.Windows.Forms.TextBox textBoxKet;
+        private System.Windows.Forms.DateTimePicker dateTimePicker;
         private System.Windows.Forms.Button transaksiBtn;
         private System.Windows.Forms.Button backBtn;
         private System.Windows.Forms.Label label1;

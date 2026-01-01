@@ -55,7 +55,7 @@ namespace SistemAdminBank.View.Rekening
                 var item = new ListViewItem(rekening.RekeningId.ToString());
                 item.SubItems.Add(rekening.NomorRekening);
                 item.SubItems.Add(rekening.JenisRekening);
-                item.SubItems.Add(rekening.Saldo.ToString("C"));
+                item.SubItems.Add(rekening.Saldo.ToString(""));
                 item.SubItems.Add(rekening.TanggalBuka.ToShortDateString());
                 item.SubItems.Add(rekening.Status);
                 lvRekening.Items.Add(item);
@@ -105,6 +105,14 @@ namespace SistemAdminBank.View.Rekening
                 MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void btnClosedRek_Click(object sender, EventArgs e)
+        {
+            RekeningViewClosed rekeningViewClosed = new RekeningViewClosed(this._idAdmin, this._nasabahId); 
+            rekeningViewClosed.Show();
+            this.Hide();
+
         }
     }
 }

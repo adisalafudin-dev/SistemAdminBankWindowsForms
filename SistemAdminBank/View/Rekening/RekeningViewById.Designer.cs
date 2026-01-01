@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.noRekBox = new System.Windows.Forms.TextBox();
-            this.jenisBox = new System.Windows.Forms.TextBox();
             this.statusBox = new System.Windows.Forms.TextBox();
             this.saldoBox = new System.Windows.Forms.TextBox();
             this.dateBox = new System.Windows.Forms.DateTimePicker();
@@ -42,6 +41,7 @@
             this.dltBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.btnTransaksi = new System.Windows.Forms.Button();
+            this.comboBoxJenis = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // noRekBox
@@ -51,13 +51,6 @@
             this.noRekBox.ReadOnly = true;
             this.noRekBox.Size = new System.Drawing.Size(424, 20);
             this.noRekBox.TabIndex = 0;
-            // 
-            // jenisBox
-            // 
-            this.jenisBox.Location = new System.Drawing.Point(200, 114);
-            this.jenisBox.Name = "jenisBox";
-            this.jenisBox.Size = new System.Drawing.Size(186, 20);
-            this.jenisBox.TabIndex = 1;
             // 
             // statusBox
             // 
@@ -165,12 +158,22 @@
             this.btnTransaksi.TabIndex = 16;
             this.btnTransaksi.Text = "Buat Transaksi";
             this.btnTransaksi.UseVisualStyleBackColor = true;
+            this.btnTransaksi.Click += new System.EventHandler(this.btnTransaksi_Click);
+            // 
+            // comboBoxJenis
+            // 
+            this.comboBoxJenis.FormattingEnabled = true;
+            this.comboBoxJenis.Location = new System.Drawing.Point(201, 112);
+            this.comboBoxJenis.Name = "comboBoxJenis";
+            this.comboBoxJenis.Size = new System.Drawing.Size(185, 21);
+            this.comboBoxJenis.TabIndex = 17;
             // 
             // RekeningViewById
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.comboBoxJenis);
             this.Controls.Add(this.btnTransaksi);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.dltBtn);
@@ -183,7 +186,6 @@
             this.Controls.Add(this.dateBox);
             this.Controls.Add(this.saldoBox);
             this.Controls.Add(this.statusBox);
-            this.Controls.Add(this.jenisBox);
             this.Controls.Add(this.noRekBox);
             this.Name = "RekeningViewById";
             this.Text = "RekeningViewById";
@@ -196,7 +198,6 @@
         #endregion
 
         private System.Windows.Forms.TextBox noRekBox;
-        private System.Windows.Forms.TextBox jenisBox;
         private System.Windows.Forms.TextBox statusBox;
         private System.Windows.Forms.TextBox saldoBox;
         private System.Windows.Forms.DateTimePicker dateBox;
@@ -209,5 +210,6 @@
         private System.Windows.Forms.Button dltBtn;
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button btnTransaksi;
+        private System.Windows.Forms.ComboBox comboBoxJenis;
     }
 }

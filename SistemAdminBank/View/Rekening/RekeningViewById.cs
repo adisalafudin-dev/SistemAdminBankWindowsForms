@@ -1,5 +1,6 @@
 ﻿using SistemAdminBank.Controller;
 using SistemAdminBank.Model.Entity;
+using SistemAdminBank.View.Transaksi;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -31,14 +32,16 @@ namespace SistemAdminBank.View.Rekening
         {
             RekeningModel rekening = _controller.GetById(_rekeningId);
             noRekBox.Text = rekening.NomorRekening.ToString();
-            jenisBox.Text = rekening.JenisRekening;
+            comboBoxJenis.SelectedItem = rekening.JenisRekening;
             saldoBox.Text = rekening.Saldo.ToString();
             dateBox.Text = rekening.TanggalBuka.ToString();
             statusBox.Text = rekening.Status;
 
+            comboBoxJenis.ValueMember = rekening.JenisRekening;
+
             if (rekening.Status == "CLOSED")
             {
-                jenisBox.Enabled = false;
+                comboBoxJenis.Enabled = false;
                 saldoBox.Enabled = false;
                 dateBox.Enabled = false;
                 statusBox.Enabled = false;
@@ -49,7 +52,7 @@ namespace SistemAdminBank.View.Rekening
 
             else if (rekening.Status == "ACTIVE")
             {
-                jenisBox.Enabled = true;
+                comboBoxJenis.Enabled = true;
                 saldoBox.Enabled = true;
                 dateBox.Enabled = true;
                 statusBox.Enabled = true;
@@ -62,6 +65,16 @@ namespace SistemAdminBank.View.Rekening
 
         private void RekeningViewById_Load(object sender, EventArgs e)
         {
+            comboBoxJenis.DropDownStyle = ComboBoxStyle.DropDownList;
+
+            comboBoxJenis.DisplayMember = "Text";
+            comboBoxJenis.ValueMember = "Value";
+
+            comboBoxJenis.Items.Add("Tabungan");
+            comboBoxJenis.Items.Add("Giro");
+            comboBoxJenis.Items.Add("Deposito");
+
+
 
         }
 
@@ -69,7 +82,7 @@ namespace SistemAdminBank.View.Rekening
         {
             RekeningModel newRekening = new RekeningModel
             {
-                JenisRekening = jenisBox.Text,
+                JenisRekening = comboBoxJenis.SelectedItem.ToString(),
                 Saldo = decimal.Parse(saldoBox.Text),
                 TanggalBuka = DateTime.Parse(dateBox.Text),
                 Status = statusBox.Text
@@ -139,6 +152,14 @@ namespace SistemAdminBank.View.Rekening
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void btnTransaksi_Click(object sender, EventArgs e)
+        {
+            TransaksiCreate transaksiCreate = new TransaksiCreate(_idAdmin, _nasabahId, _rekeningId);
+            transaksiCreate.Show();
+            this.Hide();
+
         }
     }
 }

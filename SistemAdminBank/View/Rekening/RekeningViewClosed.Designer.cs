@@ -40,6 +40,7 @@
             this.btnBack.TabIndex = 5;
             this.btnBack.Text = "Kembali";
             this.btnBack.UseVisualStyleBackColor = true;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
             // lvRekening
             // 

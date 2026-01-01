@@ -72,6 +72,7 @@
             this.btnClosedRek.TabIndex = 3;
             this.btnClosedRek.Text = "Closed Rekening";
             this.btnClosedRek.UseVisualStyleBackColor = true;
+            this.btnClosedRek.Click += new System.EventHandler(this.btnClosedRek_Click);
             // 
             // RekekningView
             // 
