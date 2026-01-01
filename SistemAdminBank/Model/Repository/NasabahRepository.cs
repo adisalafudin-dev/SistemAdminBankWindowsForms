@@ -2,10 +2,12 @@
 using SistemAdminBank.Model.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace SistemAdminBank.Model.Repository
 {
@@ -20,42 +22,49 @@ namespace SistemAdminBank.Model.Repository
 
         public int Create(NasabahModel nasabah)
         {
-            var result = 0;
+            int result = 0;
+            if (_conn.State != ConnectionState.Open)
+                _conn.Open();
 
-            string sql = "INSERT INTO nasabah (nasabah_id, nama_lengkap, nik, alamat, no_telp, tanggal_daftar) " +
-                         "VALUES (@IdNasabah, @Nama, @Nik, @Alamat, @NoTelepon, @TanggalDaftar)";
+
+            string sql = @"INSERT INTO nasabah 
+    (nama_lengkap, nik, alamat, no_telp, tanggal_daftar)
+    VALUES (@Nama, @Nik, @Alamat, @NoTelepon, @TanggalDaftar)";
 
             using (var cmd = new SQLiteCommand(sql, _conn))
             {
-                cmd.Parameters.AddWithValue("@IdNasabah", nasabah.IdNasabah);
                 cmd.Parameters.AddWithValue("@Nama", nasabah.Nama);
                 cmd.Parameters.AddWithValue("@Nik", nasabah.Nik);
                 cmd.Parameters.AddWithValue("@Alamat", nasabah.Alamat);
                 cmd.Parameters.AddWithValue("@NoTelepon", nasabah.NoTelepon);
-                cmd.Parameters.AddWithValue("@TanggalDaftar", nasabah.TanggalDaftar);
+                cmd.Parameters.AddWithValue("@TanggalDaftar",
+                    nasabah.TanggalDaftar.ToString("yyyy-MM-dd"));
 
                 try
                 {
+                    if (_conn.State == ConnectionState.Closed)
+                        _conn.Open();
+
                     result = cmd.ExecuteNonQuery();
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.Print("Create Nasabah Error: {0}", ex.Message);
-
+                    MessageBox.Show(ex.Message); // tampilkan error asli
                 }
-
-                return result;
-
             }
+
+            return result;
         }
+
 
         public List<NasabahModel> GetAll()
         {
             var nasabahList = new List<NasabahModel>();
+    
 
             try
             {
-                string sql = @"select nasabah_id, nama_lengkap, nik, alamat, no_telp, tanggal_daftar from nasabah";
+                string sql = @"select nasabah_id, nama_lengkap, nik, alamat, no_telp, tanggal_daftar, status from nasabah";
 
                 using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
                 {
@@ -65,12 +74,13 @@ namespace SistemAdminBank.Model.Repository
                         {
                             var nasabah = new NasabahModel
                             {
-                                IdNasabah = reader["nasabah_id"].ToString(),
+                                IdNasabah = reader.GetInt32(reader.GetOrdinal("nasabah_id")),
                                 Nama = reader["nama_lengkap"].ToString(),
                                 Nik = reader["nik"].ToString(),
                                 Alamat = reader["alamat"].ToString(),
                                 NoTelepon = reader["no_telp"].ToString(),
-                                TanggalDaftar = Convert.ToDateTime(reader["tanggal_daftar"])
+                                TanggalDaftar = Convert.ToDateTime(reader["tanggal_daftar"]),
+                                Status = reader["status"].ToString()
                             };
                             nasabahList.Add(nasabah);
                         }
@@ -91,7 +101,9 @@ namespace SistemAdminBank.Model.Repository
             var result = 0;
 
             string sql = "UPDATE nasabah SET nama_lengkap = @Nama, nik = @Nik, alamat = @Alamat, no_telp = @NoTelepon, tanggal_daftar = @TanggalDaftar " +
-                         "WHERE nasabah_id = @IdNasabah";   
+                         "WHERE nasabah_id = @IdNasabah";
+            if (_conn.State != ConnectionState.Open)
+                _conn.Open();
 
             using (var cmd = new SQLiteCommand(sql, _conn))
             {
@@ -120,6 +132,9 @@ namespace SistemAdminBank.Model.Repository
         public int Delete(string IdNasabah)
         {
             int result = 0;
+            if (_conn.State != ConnectionState.Open)
+                _conn.Open();
+
 
             string sql = @"
         UPDATE nasabah
@@ -140,6 +155,9 @@ namespace SistemAdminBank.Model.Repository
         public int Restore(string IdNasabah)
         {
             int result = 0;
+            if (_conn.State != ConnectionState.Open)
+                _conn.Open();
+
 
             string sql = @"
         UPDATE nasabah
@@ -155,30 +173,31 @@ namespace SistemAdminBank.Model.Repository
             return result;
         }
 
-
-        public NasabahModel GetById(string IdNasabah)
+        public NasabahModel GetById(int IdNasabah)
         {
             NasabahModel nasabah = null;
 
             string sql = @"
-                SELECT nasabah_id, nama_lengkap, nik, alamat, no_telp, tanggal_daftar, status
-                FROM nasabah
-                WHERE nasabah_id = @IdNasabah";
-
+        SELECT nasabah_id, nama_lengkap, nik, alamat, no_telp, tanggal_daftar, status
+        FROM nasabah
+        WHERE nasabah_id = @IdNasabah";
 
             try
             {
+                if (_conn.State != ConnectionState.Open)
+                    _conn.Open();
+
                 using (SQLiteCommand cmd = new SQLiteCommand(sql, _conn))
                 {
                     cmd.Parameters.AddWithValue("@IdNasabah", IdNasabah);
 
                     using (SQLiteDataReader reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.Read())
                         {
                             nasabah = new NasabahModel
                             {
-                                IdNasabah = reader["nasabah_id"].ToString(),
+                                IdNasabah = Convert.ToInt32(reader["nasabah_id"]),
                                 Nama = reader["nama_lengkap"].ToString(),
                                 Nik = reader["nik"].ToString(),
                                 Alamat = reader["alamat"].ToString(),
@@ -186,15 +205,13 @@ namespace SistemAdminBank.Model.Repository
                                 TanggalDaftar = Convert.ToDateTime(reader["tanggal_daftar"]),
                                 Status = reader["status"].ToString()
                             };
-
-                         
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.Print("GetById Error: {0}", ex.Message);
+                MessageBox.Show(ex.Message);
             }
 
             return nasabah;
@@ -204,6 +221,8 @@ namespace SistemAdminBank.Model.Repository
         public List<NasabahModel> SearchByName(string NamaNasabah)
         {
             var nasabahList = new List<NasabahModel>();
+            if (_conn.State != ConnectionState.Open)
+                _conn.Open();
 
             try
             {
@@ -219,7 +238,7 @@ namespace SistemAdminBank.Model.Repository
                         {
                             var nasabah = new NasabahModel
                             {
-                                IdNasabah = reader["nasabah_id"].ToString(),
+                                IdNasabah = reader.GetInt32(reader.GetOrdinal("nasabah_id")),
                                 Nama = reader["nama_lengkap"].ToString(),
                                 Nik = reader["nik"].ToString(),
                                 Alamat = reader["alamat"].ToString(),

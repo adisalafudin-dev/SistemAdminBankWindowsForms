@@ -64,9 +64,6 @@ namespace SistemAdminBank.View.Nasabah
                 );
             }
 
-           NasabahView nasabahView = new NasabahView(this._idAdmin);
-            nasabahView.Show();
-            this.Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)

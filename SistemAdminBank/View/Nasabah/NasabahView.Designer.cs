@@ -135,7 +135,6 @@
             this.Controls.Add(this.lvNasabah);
             this.Name = "NasabahView";
             this.Text = "NasabahView";
-            this.Load += new System.EventHandler(this.NasabahView_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

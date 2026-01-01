@@ -15,10 +15,10 @@ namespace SistemAdminBank.View.Rekening
     public partial class RekekningView : Form
     {
         private string _idAdmin;
-        private string _nasabahId;
+        private int _nasabahId;
         private RekeningController _controller = new RekeningController();
 
-        public RekekningView(string idAdmin, string nasabahId)
+        public RekekningView(string idAdmin, int nasabahId)
         {
             _idAdmin = idAdmin;
             _nasabahId = nasabahId;
@@ -37,6 +37,7 @@ namespace SistemAdminBank.View.Rekening
             lvRekening.MultiSelect = false;
             lvRekening.HideSelection = false;
 
+            lvRekening.Columns.Add("No.", 50, HorizontalAlignment.Center);
             lvRekening.Columns.Add("No. Rekening", 50, HorizontalAlignment.Center);
             lvRekening.Columns.Add("Jenis", 150, HorizontalAlignment.Left);
             lvRekening.Columns.Add("Saldo", 120, HorizontalAlignment.Center);
@@ -48,16 +49,11 @@ namespace SistemAdminBank.View.Rekening
         {
             var rekeningList = _controller.GetByNasabahId(_nasabahId);
 
-            if(rekeningList.Count > 0)
-            {
-                lvRekening.Items.Clear();
-                return;
-            }
-
             lvRekening.Items.Clear();
             foreach (var rekening in rekeningList)
             {
-                var item = new ListViewItem(rekening.NomorRekening.ToString());
+                var item = new ListViewItem(rekening.RekeningId.ToString());
+                item.SubItems.Add(rekening.NomorRekening);
                 item.SubItems.Add(rekening.JenisRekening);
                 item.SubItems.Add(rekening.Saldo.ToString("C"));
                 item.SubItems.Add(rekening.TanggalBuka.ToShortDateString());
@@ -73,8 +69,8 @@ namespace SistemAdminBank.View.Rekening
 
         private void button1_Click(object sender, EventArgs e)
         {
-            RekeningCreate nasabahCreate = new RekeningCreate(this._idAdmin, this._nasabahId);
-            nasabahCreate.Show();
+            RekeningCreate rekeningCreate = new RekeningCreate(this._idAdmin, this._nasabahId);
+            rekeningCreate.Show();
             this.Hide();
         }
 
@@ -88,13 +84,27 @@ namespace SistemAdminBank.View.Rekening
 
         private void lvRekening_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lvRekening.SelectedItems.Count == 0)
-                return;
+            try
+            {
+                // Validasi: Pastikan ada item yang dipilih
+                if (lvRekening.SelectedItems.Count == 0)
+                    return;
 
-            string idRekening = lvRekening.SelectedItems[0].SubItems[0].Text;
-            RekeningViewById rekeningViewById = new RekeningViewById(idRekening, _idAdmin, _nasabahId);
-            rekeningViewById.Show();
-            this.Hide();
+                // Ambil nomor rekening dari kolom pertama
+                var idRekening = Convert.ToInt32(lvRekening.SelectedItems[0].Text);
+
+
+
+                // Buka form RekeningViewById
+                RekeningViewById rekeningViewById = new RekeningViewById(idRekening, _idAdmin, _nasabahId);
+                rekeningViewById.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Terjadi kesalahan: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace SistemAdminBank.Model.Entity
 {
     public class NasabahModel
     {
-        public string IdNasabah { get; set; }
+        public int IdNasabah { get; set; }
         public string Nama { get; set; }
         public string Nik { get; set; }
         public string Alamat { get; set; }

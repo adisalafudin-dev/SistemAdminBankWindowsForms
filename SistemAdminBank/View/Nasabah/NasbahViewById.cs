@@ -1,5 +1,6 @@
 ﻿using SistemAdminBank.Controller;
 using SistemAdminBank.Model.Entity;
+using SistemAdminBank.View.Rekening;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,40 +15,80 @@ namespace SistemAdminBank.View.Nasabah
 {
     public partial class NasbahViewById : Form
     {
-        private string _nasabahId;
+        private int _nasabahId;
         private string _idAdmin; 
         NasabahController _controller = new NasabahController();
-        public NasbahViewById(string nasabahId, string idAdmin)
+        public NasbahViewById(int nasabahId, string idAdmin)
         {
+            InitializeComponent();
+            if (int.Equals(nasabahId, ""))
+            {
+                MessageBox.Show("ID Nasabah tidak valid!", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Close();
+                return;
+            }
+
+            // Initialize fields
             this._nasabahId = nasabahId;
             this._idAdmin = idAdmin;
+
+            // ← PENTING: Initialize controller!
+            this._controller = new NasabahController();
             LoadDataNasabah();
-            InitializeComponent();
+
 
         }
 
         private void LoadDataNasabah()
         {
-           NasabahModel nasabah = _controller.GetById(_nasabahId);
-          if (nasabah != null)
-              {
+            try
+            {
+                // Debug log
+                System.Diagnostics.Debug.WriteLine($"Loading data for Nasabah ID: {_nasabahId}");
+
+                // Line 42: Cek controller tidak null
+                if (_controller == null)
+                {
+                    MessageBox.Show("Controller tidak terinisialisasi!", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Close();
+                    return;
+                }
+
+                // Ambil data dari database
+                var nasabah = _controller.GetById(_nasabahId);
+
+                // Cek apakah data ditemukan
+                if (nasabah == null)
+                {
+                    MessageBox.Show($"Data nasabah dengan ID '{_nasabahId}' tidak ditemukan!",
+                                    "Data Tidak Ditemukan",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    this.Close();
+                    return;
+                }
+
                 namaBox.Text = nasabah.Nama;
                 nikBox.Text = nasabah.Nik;
+                btnStatus.Text = nasabah.Status == "ACTIVE" ? "Active" : "Inactive";
                 alamatBox.Text = nasabah.Alamat;
                 noTelpBox.Text = nasabah.NoTelepon;
                 tglDaftarPicker.Value = nasabah.TanggalDaftar;
-                btnStatus.Text = nasabah.Status;
-            }
+                dltBtn.Text = nasabah.Status == "ACTIVE" ? "Delete" : "Restore";
 
-            if (nasabah.Status == "ACTIVE")
-            {
-                dltBtn.Enabled = true;
-                dltBtn.Text = "Delete Nasabah";
+
+                // Debug: Cek data yang diterima
+                System.Diagnostics.Debug.WriteLine($"Nasabah found: {nasabah.Nama}");
+
             }
-            else if (nasabah.Status == "INACTIVE")
+            catch (Exception ex)
             {
-                dltBtn.Enabled = true;
-                dltBtn.Text = "Restore Nasabah";
+                MessageBox.Show($"Error saat memuat data nasabah:\n\n{ex.Message}\n\n{ex.StackTrace}",
+                                "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Diagnostics.Debug.WriteLine($"LoadDataNasabah Error: {ex.Message}\n{ex.StackTrace}");
+                this.Close();
             }
         }
 
@@ -63,15 +104,20 @@ namespace SistemAdminBank.View.Nasabah
             if (nasabah.Status == "ACTIVE")
             {
                 _controller.Delete(_nasabahId.ToString());
+         
 
                 MessageBox.Show("Data nasabah berhasil dihapus", "Success",
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            else if (nasabah.Status == "INACTIVE")
+            
+            if (nasabah.Status == "INACTIVE")
             {
                 _controller.Restore(_nasabahId.ToString());
-                MessageBox.Show("Data nasabah berhasil dihapus", "Success",
+                MessageBox.Show("Data nasabah berhasil dikembalikan", "Success",
+
+    
                 MessageBoxButtons.OK, MessageBoxIcon.Information);
+              
             }
             LoadDataNasabah(); 
         }
@@ -121,6 +167,14 @@ namespace SistemAdminBank.View.Nasabah
             NasabahView view = new NasabahView(_idAdmin);
             view.Show();
             this.Hide();
+        }
+
+        private void cekRekBtn_Click(object sender, EventArgs e)
+        {
+            RekekningView rekekningView = new RekekningView(_idAdmin, _nasabahId);
+            rekekningView.Show();
+            this.Hide();
+
         }
     }
 }

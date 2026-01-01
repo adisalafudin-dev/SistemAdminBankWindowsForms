@@ -2,6 +2,7 @@
 using SistemAdminBank.Model.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
@@ -62,7 +63,7 @@ namespace SistemAdminBank.Model.Repository
                         {
                             RekeningId = Convert.ToInt32(reader["rekening_id"]),
                             NomorRekening = reader["no_rekening"].ToString(),
-                            IdNasabah = reader["nasabah_id"].ToString(),
+                            IdNasabah = Convert.ToInt32(reader["nasabah_id"]),
                             JenisRekening = reader["jenis_rekening"].ToString(),
                             Saldo = Convert.ToDecimal(reader["saldo"]),
                             TanggalBuka = Convert.ToDateTime(reader["tanggal_buka"]),
@@ -74,24 +75,28 @@ namespace SistemAdminBank.Model.Repository
             return rekening;
         }
 
-        public List<RekeningModel> GetByNasabahId(string nasabahId)
+        public List<RekeningModel> GetByNasabahId(int nasabahId)
         {
+
+            if (_conn.State != ConnectionState.Open)
+                _conn.Open();
+
             var rekeningList = new List<RekeningModel>();
             RekeningModel rekening = null;
             string sql = "SELECT rekening_id, no_rekening, nasabah_id, jenis_rekening, saldo, tanggal_buka, status " +
-                         "FROM rekening WHERE nasabah_id = @NasabahId";
+                         "FROM rekening WHERE nasabah_id = @NasabahId  AND status = 'ACTIVE'";
             using (var cmd = new SQLiteCommand(sql, _conn))
             {
                 cmd.Parameters.AddWithValue("@NasabahId", nasabahId);
                 using (var reader = cmd.ExecuteReader())
                 {
-                    if (reader.Read())
+                    while(reader.Read())
                     {
                         rekening = new RekeningModel
                         {
                             RekeningId = Convert.ToInt32(reader["rekening_id"]),
                             NomorRekening = reader["no_rekening"].ToString(),
-                            IdNasabah = reader["nasabah_id"].ToString(),
+                            IdNasabah = Convert.ToInt32(reader["nasabah_id"]),
                             JenisRekening = reader["jenis_rekening"].ToString(),
                             Saldo = Convert.ToDecimal(reader["saldo"]),
                             TanggalBuka = Convert.ToDateTime(reader["tanggal_buka"]),
@@ -106,7 +111,43 @@ namespace SistemAdminBank.Model.Repository
 
         }
 
-        public int Update(int rekeningId, RekeningModel rekening)
+        public List<RekeningModel> GetByNasabahIdClosed(int nasabahId)
+        {
+
+            if (_conn.State != ConnectionState.Open)
+                _conn.Open();
+
+            var rekeningList = new List<RekeningModel>();
+            RekeningModel rekening = null;
+            string sql = "SELECT rekening_id, no_rekening, nasabah_id, jenis_rekening, saldo, tanggal_buka, status " +
+                         "FROM rekening WHERE nasabah_id = @NasabahId  AND status = 'CLOSED'";
+            using (var cmd = new SQLiteCommand(sql, _conn))
+            {
+                cmd.Parameters.AddWithValue("@NasabahId", nasabahId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        rekening = new RekeningModel
+                        {
+                            RekeningId = Convert.ToInt32(reader["rekening_id"]),
+                            NomorRekening = reader["no_rekening"].ToString(),
+                            IdNasabah = Convert.ToInt32(reader["nasabah_id"]),
+                            JenisRekening = reader["jenis_rekening"].ToString(),
+                            Saldo = Convert.ToDecimal(reader["saldo"]),
+                            TanggalBuka = Convert.ToDateTime(reader["tanggal_buka"]),
+                            Status = reader["status"].ToString()
+                        };
+
+                        rekeningList.Add(rekening);
+                    }
+                }
+            }
+            return rekeningList;
+
+        }
+
+        public int Update(string nomorRekening, RekeningModel rekening)
         {
             int result = 0;
             string sql = "UPDATE rekening SET jenis_rekening = @JenisRekening, saldo = @Saldo, status = @Status " +
@@ -118,7 +159,7 @@ namespace SistemAdminBank.Model.Repository
                 cmd.Parameters.AddWithValue("@JenisRekening", rekening.JenisRekening);
                 cmd.Parameters.AddWithValue("@Saldo", rekening.Saldo);
                 cmd.Parameters.AddWithValue("@Status", rekening.Status);
-                cmd.Parameters.AddWithValue("@NomorRekening", rekeningId);
+                cmd.Parameters.AddWithValue("@NomorRekening", nomorRekening);
                 try
                 {
                     result = cmd.ExecuteNonQuery();
@@ -131,7 +172,7 @@ namespace SistemAdminBank.Model.Repository
             return result;  
         }
 
-        public int CloseRekening(int noRek)
+        public int CloseRekening(string noRek)
         {
             int result = 0;
 
@@ -152,7 +193,7 @@ namespace SistemAdminBank.Model.Repository
             return result;
         }
 
-        public int RestoreRekening(int noRek)
+        public int RestoreRekening(string noRek)
         {
             int result = 0;
             string sql = "UPDATE rekening SET status = 'ACTIVE' WHERE no_rekening = @NoRek";

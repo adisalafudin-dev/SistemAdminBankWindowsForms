@@ -15,21 +15,21 @@ namespace SistemAdminBank.View.Rekening
     public partial class RekeningViewById : Form
     {
         private string _idAdmin;
-        private string _nasabahId;
-        private string _rekeningId;
+        private int _nasabahId;
+        private int _rekeningId;
         private RekeningController _controller = new RekeningController();
-        public RekeningViewById(string _rekeningId, string idAdmin, string nasabahId)
+        public RekeningViewById(int _rekeningId, string idAdmin, int nasabahId)
         {
+            InitializeComponent();
             this._nasabahId = nasabahId;
             this._idAdmin = idAdmin;
             this._rekeningId = _rekeningId;
             InisialisasiRekeningViewById();
-            InitializeComponent();
         }
 
         public void InisialisasiRekeningViewById()
         {
-            RekeningModel rekening = _controller.GetById(int.Parse(_rekeningId));
+            RekeningModel rekening = _controller.GetById(_rekeningId);
             noRekBox.Text = rekening.NomorRekening.ToString();
             jenisBox.Text = rekening.JenisRekening;
             saldoBox.Text = rekening.Saldo.ToString();
@@ -75,7 +75,9 @@ namespace SistemAdminBank.View.Rekening
                 Status = statusBox.Text
             };
 
-            int result = _controller.UpdateRekening(int.Parse(_rekeningId), newRekening);
+            string noRekening = noRekBox.Text;
+
+            int result = _controller.UpdateRekening(noRekening, newRekening);
             if (result > 0)
             {
                 MessageBox.Show("Rekening berhasil diupdate", "Success",
@@ -101,11 +103,11 @@ namespace SistemAdminBank.View.Rekening
 
         private void dltBtn_Click(object sender, EventArgs e)
         {
-            RekeningModel rekening = _controller.GetById(int.Parse(_rekeningId));
+            RekeningModel rekening = _controller.GetById(_rekeningId);
 
             if (rekening.Status == "ACTIVE")
             {
-                int result = _controller.CloseRekening(int.Parse(_rekeningId));
+                int result = _controller.CloseRekening(rekening.NomorRekening);
                 if (result > 0)
                 {
                     MessageBox.Show("Rekening berhasil dihapus", "Success",
@@ -122,7 +124,7 @@ namespace SistemAdminBank.View.Rekening
             }
             else if (rekening.Status == "CLOSED")
             {
-                int result = _controller.RestoreRekening(int.Parse(_rekeningId));
+                int result = _controller.RestoreRekening(rekening.NomorRekening);
                 if (result > 0)
                 {
                     MessageBox.Show("Rekening berhasil direstore", "Success",

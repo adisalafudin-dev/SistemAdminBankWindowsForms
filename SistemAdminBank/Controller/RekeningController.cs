@@ -22,13 +22,17 @@ namespace SistemAdminBank.Controller
 
         public int CreateRekening(RekeningModel rekening)
         {
-            if (rekening == null)
-                return 0;
 
-            if (string.IsNullOrWhiteSpace(rekening.NomorRekening))
-                return 0;
+     
+                if (rekening == null)
+                    return 0;
 
-            return _repository.CreateRekening(rekening);
+                if (string.IsNullOrWhiteSpace(rekening.NomorRekening))
+                    return 0;
+
+                return _repository.CreateRekening(rekening);
+              
+        
         }
 
 
@@ -37,25 +41,30 @@ namespace SistemAdminBank.Controller
             return _repository.GetById(rekeningId);
         }
 
-        public List<RekeningModel> GetByNasabahId(string nasabahId)
+        public List<RekeningModel> GetByNasabahId(int nasabahId)
         {
             return _repository.GetByNasabahId(nasabahId);
         }
 
-        public int UpdateRekening(int rekeningId, RekeningModel rekening)
+        public List<RekeningModel> GetByNasabahIdClosed(int nasabahId)
+        {
+            return _repository.GetByNasabahIdClosed(nasabahId);
+        }
+
+        public int UpdateRekening(string noRek, RekeningModel rekening)
         {
             if (rekening == null)
                 return 0;
 
-            return _repository.Update(rekeningId, rekening);
+            return _repository.Update(noRek, rekening);
         }
 
-        public int CloseRekening(int noRek)
+        public int CloseRekening(string noRek)
         {
             return _repository.CloseRekening(noRek);
         }
 
-        public int RestoreRekening(int noRek)
+        public int RestoreRekening(string noRek)
         {
             return _repository.RestoreRekening(noRek);
         }

@@ -20,10 +20,12 @@ namespace SistemAdminBank.View.Nasabah
         private NasabahController _controller = new NasabahController();
         public NasabahView(string idAdmin)
         {
+            InitializeComponent();   // 1️⃣ WAJIB PERTAMA
             this._idAdmin = idAdmin;
-            InitializeComponent();
-            InitListViewNasabah();
+            InitListViewNasabah();   // 2️⃣ SETUP LISTVIEW
+            LoadNasabahData();       // 3️⃣ BARU LOAD DATA
         }
+
 
         private void InitListViewNasabah()
         {
@@ -41,6 +43,7 @@ namespace SistemAdminBank.View.Nasabah
             lvNasabah.Columns.Add("Alamat", 200, HorizontalAlignment.Left);
             lvNasabah.Columns.Add("No Telp", 120, HorizontalAlignment.Right);
             lvNasabah.Columns.Add("Tanggal Daftar", 80, HorizontalAlignment.Center);
+            lvNasabah.Columns.Add("Status", 80, HorizontalAlignment.Center);
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
@@ -56,12 +59,14 @@ namespace SistemAdminBank.View.Nasabah
             lvNasabah.Items.Clear();
             foreach (var nasabah in nasabahList)
             {
-                var item = new ListViewItem(nasabah.IdNasabah);
+                var item = new ListViewItem(nasabah.IdNasabah.ToString());
                 item.SubItems.Add(nasabah.Nama);
                 item.SubItems.Add(nasabah.Nik);
                 item.SubItems.Add(nasabah.Alamat);
                 item.SubItems.Add(nasabah.NoTelepon);
                 item.SubItems.Add(nasabah.TanggalDaftar.ToString());
+                item.SubItems.Add(nasabah.Status);
+
                 lvNasabah.Items.Add(item);
             }
         }
@@ -75,26 +80,23 @@ namespace SistemAdminBank.View.Nasabah
             if (string.IsNullOrWhiteSpace(searchName))
             {
                 lvNasabah.Items.Clear();
-                LoadNasabahData();
+               
+
             }
             
             foreach (var nasabah in nasabahList)
             {
-                var item = new ListViewItem(nasabah.IdNasabah);
+                var item = new ListViewItem(nasabah.IdNasabah.ToString());
                 item.SubItems.Add(nasabah.Nama);
                 item.SubItems.Add(nasabah.Nik);
                 item.SubItems.Add(nasabah.Alamat);
                 item.SubItems.Add(nasabah.NoTelepon);
                 item.SubItems.Add(nasabah.TanggalDaftar.ToString());
+                item.SubItems.Add(nasabah.Status);
                 lvNasabah.Items.Add(item);
             }
         }
 
-
-        private void NasabahView_Load(object sender, EventArgs e)
-        {
-            LoadNasabahData();
-        }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -115,17 +117,30 @@ namespace SistemAdminBank.View.Nasabah
 
         private void lvNasabah_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (lvNasabah.SelectedItems.Count == 0) return;
+            try
+            {
+                // Validasi ada item yang dipilih
+                if (lvNasabah.SelectedItems.Count == 0)
+                    return;
 
-            string idNasabah = lvNasabah.SelectedItems[0].Text;
+                // Ambil ID Nasabah dari kolom pertama
+                int idNasabah = Convert.ToInt32(lvNasabah.SelectedItems[0].Text); // Atau .SubItems[0].Text
 
-            var detailForm = new NasbahViewById(
-                idNasabah,
-                this._idAdmin
-            );
+                // Debug log
+                System.Diagnostics.Debug.WriteLine($"Selected Nasabah ID: {idNasabah}");
 
-            detailForm.Show();
-            this.Hide();
+
+                // Buka form detail
+                var detailForm = new NasbahViewById(idNasabah, this._idAdmin);
+                detailForm.Show();
+                this.Hide();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Terjadi kesalahan:\n\n{ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                System.Diagnostics.Debug.WriteLine($"Error: {ex.Message}\n{ex.StackTrace}");
+            }
         }
 
         private void searchBox_TextChanged(object sender, EventArgs e)

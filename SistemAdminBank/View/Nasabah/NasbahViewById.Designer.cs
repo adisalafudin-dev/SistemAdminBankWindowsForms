@@ -137,6 +137,7 @@
             this.cekRekBtn.TabIndex = 20;
             this.cekRekBtn.Text = "Cek Rekening";
             this.cekRekBtn.UseVisualStyleBackColor = true;
+            this.cekRekBtn.Click += new System.EventHandler(this.cekRekBtn_Click);
             // 
             // dltBtn
             // 
