@@ -160,7 +160,7 @@ namespace SistemAdminBank.Model.Repository
 
         public List<TransaksiModel> GetAllTransaksi(int idRekening) {
             List<TransaksiModel> list = new List<TransaksiModel>();
-            string sql = @"SELECT id_transaksi, jenis_transaksi, jumlah, rekening_tujuan, tanggal_transaksi, keterangan, admin_id, rekening_id, nasabah_id
+            string sql = @"SELECT id_transaksi, jenis_transaksi, jumlah, rekening_tujuan, tanggal_transaksi, keterangan, rekening_id, nasabah_id
                    FROM transaksi
                    WHERE rekening_id = @RekeningId";
 

@@ -1,5 +1,6 @@
 ﻿using SistemAdminBank.Controller;
 using SistemAdminBank.Model.Entity;
+using SistemAdminBank.View.Rekening;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -73,6 +74,14 @@ namespace SistemAdminBank.View.Transaksi
 
 
             }
+
+        }
+
+        private void backBtn_Click(object sender, EventArgs e)
+        {
+            RekeningViewById rekeningViewById = new RekeningViewById(_rekeningId, _idAdmin, _nasabahId);
+            rekeningViewById.Show();
+            this.Close();
 
         }
     }

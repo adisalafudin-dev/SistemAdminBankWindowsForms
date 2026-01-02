@@ -135,6 +135,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="View\Admin\AdminLoginView.aa.resx">
+      <DependentUpon>AdminLoginView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="View\Admin\AdminLoginView.resx">
       <DependentUpon>AdminLoginView.cs</DependentUpon>
     </EmbeddedResource>
