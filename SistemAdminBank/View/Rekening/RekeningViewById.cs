@@ -161,5 +161,13 @@ namespace SistemAdminBank.View.Rekening
             this.Hide();
 
         }
+
+        private void btnHistori_Click(object sender, EventArgs e)
+        {
+            TransaksiView transaksiView = new TransaksiView(_rekeningId, _idAdmin, _nasabahId);
+            transaksiView.Show();
+            this.Hide();
+
+        }
     }
 }

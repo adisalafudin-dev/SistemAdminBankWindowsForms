@@ -34,8 +34,8 @@ namespace SistemAdminBank.Model.Repository
                         updateCmd.ExecuteNonQuery();
                     }
 
-                    string sql = "INSERT INTO transaksi (jenis_transaksi,  jumlah, rekening_tujuan, tanggal_transaksi, keterangan, admin_id, rekening_id, nasabah_id) " +
-                    "VALUES (@JenisTransaksi, @Jumlah, @RekeningTujuan, @TanggalTransaksi, @Keterangan, @AdminId, @RekeningId, @NasabahId)";
+                    string sql = "INSERT INTO transaksi (jenis_transaksi,  jumlah, rekening_tujuan, tanggal_transaksi, keterangan, rekening_id, nasabah_id) " +
+                    "VALUES (@JenisTransaksi, @Jumlah, @RekeningTujuan, @TanggalTransaksi, @Keterangan, @RekeningId, @NasabahId)";
                     using (var cmd = new SQLiteCommand(sql, _conn))
                     {
                         cmd.Parameters.AddWithValue("@JenisTransaksi", transaksi.JenisTransaksi);
@@ -43,7 +43,6 @@ namespace SistemAdminBank.Model.Repository
                         cmd.Parameters.AddWithValue("@RekeningTujuan", transaksi.NomorRekeningTujuan);
                         cmd.Parameters.AddWithValue("@TanggalTransaksi", transaksi.TanggalTransaksi);
                         cmd.Parameters.AddWithValue("@Keterangan", transaksi.Keterangan);
-                        cmd.Parameters.AddWithValue("@AdminId", transaksi.AdminId);
                         cmd.Parameters.AddWithValue("@RekeningId", transaksi.RekeningId);
                         cmd.Parameters.AddWithValue("@NasabahId", transaksi.NasabahId);
                         cmd.ExecuteNonQuery();
@@ -88,8 +87,8 @@ namespace SistemAdminBank.Model.Repository
                         updateCmd.ExecuteNonQuery();
                     }
 
-                    string insertTransaksiSql = "INSERT INTO transaksi (jenis_transaksi, jumlah, rekening_tujuan, tanggal_transaksi, keterangan, admin_id, rekening_id, nasabah_id) " +
-                                                "VALUES (@JenisTransaksi, @Jumlah, @RekeningTujuan, @TanggalTransaksi, @Keterangan, @AdminId, @RekeningId, @NasabahId)";
+                    string insertTransaksiSql = "INSERT INTO transaksi (jenis_transaksi, jumlah, rekening_tujuan, tanggal_transaksi, keterangan, rekening_id, nasabah_id) " +
+                                                "VALUES (@JenisTransaksi, @Jumlah, @RekeningTujuan, @TanggalTransaksi, @Keterangan, @RekeningId, @NasabahId)";
                     using (var insertCmd = new SQLiteCommand(insertTransaksiSql, _conn))
                     {
                         insertCmd.Parameters.AddWithValue("@JenisTransaksi", transaksi.JenisTransaksi);
@@ -97,7 +96,6 @@ namespace SistemAdminBank.Model.Repository
                         insertCmd.Parameters.AddWithValue("@RekeningTujuan", transaksi.NomorRekeningTujuan);
                         insertCmd.Parameters.AddWithValue("@TanggalTransaksi", transaksi.TanggalTransaksi);
                         insertCmd.Parameters.AddWithValue("@Keterangan", transaksi.Keterangan);
-                        insertCmd.Parameters.AddWithValue("@AdminId", transaksi.AdminId);
                         insertCmd.Parameters.AddWithValue("@RekeningId", transaksi.RekeningId);
                         insertCmd.Parameters.AddWithValue("@NasabahId", transaksi.NasabahId);
                         insertCmd.ExecuteNonQuery();
@@ -132,8 +130,8 @@ namespace SistemAdminBank.Model.Repository
                         updateCmd.Parameters.AddWithValue("@NoRekening", transaksi.NomorRekeningTujuan);
                         updateCmd.ExecuteNonQuery();
                     }
-                    string insertTransaksiSql = "INSERT INTO transaksi (jenis_transaksi, jumlah, rekening_tujuan, tanggal_transaksi, keterangan, admin_id, rekening_id, nasabah_id) " +
-                                                "VALUES (@JenisTransaksi, @Jumlah, @RekeningTujuan, @TanggalTransaksi, @Keterangan, @AdminId, @RekeningId, @NasabahId)";
+                    string insertTransaksiSql = "INSERT INTO transaksi (jenis_transaksi, jumlah, rekening_tujuan, tanggal_transaksi, keterangan, rekening_id, nasabah_id) " +
+                                                "VALUES (@JenisTransaksi, @Jumlah, @RekeningTujuan, @TanggalTransaksi, @Keterangan, @RekeningId, @NasabahId)";
                     using (var insertCmd = new SQLiteCommand(insertTransaksiSql, _conn))
                     {
                         insertCmd.Parameters.AddWithValue("@JenisTransaksi", transaksi.JenisTransaksi);
@@ -141,7 +139,6 @@ namespace SistemAdminBank.Model.Repository
                         insertCmd.Parameters.AddWithValue("@RekeningTujuan", transaksi.NomorRekeningTujuan);
                         insertCmd.Parameters.AddWithValue("@TanggalTransaksi", transaksi.TanggalTransaksi);
                         insertCmd.Parameters.AddWithValue("@Keterangan", transaksi.Keterangan);
-                        insertCmd.Parameters.AddWithValue("@AdminId", transaksi.AdminId);
                         insertCmd.Parameters.AddWithValue("@RekeningId", transaksi.RekeningId);
                         insertCmd.Parameters.AddWithValue("@NasabahId", transaksi.NasabahId);
                         insertCmd.ExecuteNonQuery();
@@ -160,7 +157,7 @@ namespace SistemAdminBank.Model.Repository
 
         public List<TransaksiModel> GetAllTransaksi(int idRekening) {
             List<TransaksiModel> list = new List<TransaksiModel>();
-            string sql = @"SELECT id_transaksi, jenis_transaksi, jumlah, rekening_tujuan, tanggal_transaksi, keterangan, rekening_id, nasabah_id
+            string sql = @"SELECT transaksi_id, jenis_transaksi, jumlah, rekening_tujuan, tanggal_transaksi, keterangan, rekening_id, nasabah_id
                    FROM transaksi
                    WHERE rekening_id = @RekeningId";
 
@@ -176,10 +173,9 @@ namespace SistemAdminBank.Model.Repository
                             IdTransaksi = Convert.ToInt32(reader["transaksi_id"]),
                             JenisTransaksi = reader["jenis_transaksi"].ToString(),
                             Jumlah = Convert.ToDecimal(reader["jumlah"]),
-                            NomorRekeningTujuan = Convert.ToInt32(reader["rekening_tujuan"]),
+                            NomorRekeningTujuan = reader["rekening_tujuan"].ToString(),
                             TanggalTransaksi = Convert.ToDateTime(reader["tanggal_transaksi"]),
                             Keterangan = reader["keterangan"].ToString(),
-                            AdminId = Convert.ToInt32(reader["admin_id"]),
                             RekeningId = Convert.ToInt32(reader["rekening_id"]),
 
                         };

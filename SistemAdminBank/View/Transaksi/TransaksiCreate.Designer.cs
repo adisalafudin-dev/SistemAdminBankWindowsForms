@@ -49,6 +49,7 @@
             this.comboBoxJenis.Name = "comboBoxJenis";
             this.comboBoxJenis.Size = new System.Drawing.Size(304, 21);
             this.comboBoxJenis.TabIndex = 0;
+            this.comboBoxJenis.SelectedIndexChanged += new System.EventHandler(this.comboBoxJenis_SelectedIndexChanged);
             // 
             // txtBoxJumlah
             // 
@@ -63,6 +64,7 @@
             this.textBoxTujuan.Name = "textBoxTujuan";
             this.textBoxTujuan.Size = new System.Drawing.Size(304, 20);
             this.textBoxTujuan.TabIndex = 2;
+            this.textBoxTujuan.TextChanged += new System.EventHandler(this.textBoxTujuan_TextChanged);
             // 
             // textBoxKet
             // 

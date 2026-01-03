@@ -42,6 +42,7 @@
             this.cancelBtn = new System.Windows.Forms.Button();
             this.btnTransaksi = new System.Windows.Forms.Button();
             this.comboBoxJenis = new System.Windows.Forms.ComboBox();
+            this.btnHistori = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // noRekBox
@@ -168,11 +169,22 @@
             this.comboBoxJenis.Size = new System.Drawing.Size(185, 21);
             this.comboBoxJenis.TabIndex = 17;
             // 
+            // btnHistori
+            // 
+            this.btnHistori.Location = new System.Drawing.Point(143, 35);
+            this.btnHistori.Name = "btnHistori";
+            this.btnHistori.Size = new System.Drawing.Size(156, 23);
+            this.btnHistori.TabIndex = 18;
+            this.btnHistori.Text = "Lihat History";
+            this.btnHistori.UseVisualStyleBackColor = true;
+            this.btnHistori.Click += new System.EventHandler(this.btnHistori_Click);
+            // 
             // RekeningViewById
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.btnHistori);
             this.Controls.Add(this.comboBoxJenis);
             this.Controls.Add(this.btnTransaksi);
             this.Controls.Add(this.cancelBtn);
@@ -211,5 +223,6 @@
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button btnTransaksi;
         private System.Windows.Forms.ComboBox comboBoxJenis;
+        private System.Windows.Forms.Button btnHistori;
     }
 }

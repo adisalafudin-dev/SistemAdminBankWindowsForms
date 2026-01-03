@@ -20,6 +20,7 @@ namespace SistemAdminBank.View.Transaksi
         private int _rekeningId;
 
         TransaksiController _controller = new TransaksiController();
+        RekeningController _rekeningController = new RekeningController();
 
         public TransaksiCreate(string idAdmin, int nasabahId, int rekeningId)
         {
@@ -38,44 +39,48 @@ namespace SistemAdminBank.View.Transaksi
 
             comboBoxJenis.DropDownStyle = ComboBoxStyle.DropDownList;
 
-
         }
 
         private void transaksiBtn_Click(object sender, EventArgs e)
         {
             if (comboBoxJenis.SelectedItem == null)
             {
-                MessageBox.Show("Jenis transaksi harus dipilih.", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Jenis transaksi harus dipilih.");
                 return;
             }
 
-            if (comboBoxJenis.SelectedIndex == 0)
+            if (!decimal.TryParse(txtBoxJumlah.Text, out decimal jumlah))
             {
-                TransaksiModel transaksi = new TransaksiModel();
-
-
-                string jenisTransaksi = comboBoxJenis.SelectedItem.ToString();
-                var jumlah = txtBoxJumlah.Text;
-                DateTime tanggalTransaksi = dateTimePicker.Value;
-                string keterangan = textBoxKet.Text;
-                string rekeningTujuan = textBoxTujuan.Text;
-
-
-                transaksi.Jumlah = decimal.Parse(jumlah);
-                transaksi.TanggalTransaksi = tanggalTransaksi;
-                transaksi.Keterangan = keterangan;
-                transaksi.JenisTransaksi = jenisTransaksi;
-                transaksi.RekeningId = _rekeningId;
-                transaksi.AdminId = int.Parse(_idAdmin);
-
-
-                _controller.CreateTransaksiTransfer(transaksi);
-                MessageBox.Show("Transaksi berhasil dibuat.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-
+                MessageBox.Show("Jumlah tidak valid.");
+                return;
             }
 
+            TransaksiModel transaksi = new TransaksiModel
+            {
+                JenisTransaksi = comboBoxJenis.SelectedItem.ToString(),
+                Jumlah = jumlah,
+                TanggalTransaksi = dateTimePicker.Value,
+                Keterangan = textBoxKet.Text,
+                RekeningId = _rekeningId,
+                NomorRekeningTujuan = textBoxTujuan.Text
+            };
+
+            switch (comboBoxJenis.SelectedIndex)
+            {
+                case 0:
+                    _controller.CreateTransaksiTransfer(transaksi);
+                    break;
+                case 1:
+                    _controller.CreateTransaksiSetor(transaksi);
+                    break;
+                case 2:
+                    _controller.CreateTransaksiTarik(transaksi);
+                    break;
+            }
+
+            MessageBox.Show("Transaksi berhasil dibuat.");
         }
+
 
         private void backBtn_Click(object sender, EventArgs e)
         {
@@ -83,6 +88,26 @@ namespace SistemAdminBank.View.Transaksi
             rekeningViewById.Show();
             this.Close();
 
+        }
+
+        private void textBoxTujuan_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBoxJenis_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBoxJenis.SelectedIndex == 0) 
+            {
+                textBoxTujuan.Text = "";
+                textBoxTujuan.Enabled = true;
+            }
+            else 
+            {
+                RekeningModel rekening = _rekeningController.GetById(_rekeningId);
+                textBoxTujuan.Text = rekening.NomorRekening;
+                textBoxTujuan.Enabled = false;
+            }
         }
     }
 }
